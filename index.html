@@ -52,10 +52,11 @@
   }
   #recordBtn.recording {
     background: #fff;
-    color: #d43b3b;
-    border-color: #d43b3b;
+    color: #1a1a1a;
+    border-color: #1a1a1a;
+    border-style: dashed;
   }
-  #recordBtn.recording:hover { background: #fdf1f1; }
+  #recordBtn.recording:hover { background: #eee; }
 
   #timer {
     margin: 24px 0 8px;
@@ -69,7 +70,7 @@
     color: #666;
     min-height: 1.2em;
   }
-  #status.error { color: #d43b3b; }
+  #status.error { color: #1a1a1a; font-weight: 600; }
 
   #reviewPanel {
     display: none;
@@ -90,10 +91,10 @@
     height: 46px;
   }
   #downloadBtn {
-    background: #1a7a3d;
-    border-color: #1a7a3d;
+    background: #1a1a1a;
+    border-color: #1a1a1a;
   }
-  #downloadBtn:hover { background: #145c2e; }
+  #downloadBtn:hover { background: #333; }
   #discardBtn {
     background: #fff;
     color: #1a1a1a;
@@ -109,7 +110,7 @@
 
   <button id="recordBtn">Record</button>
   <div id="timer">00:00.0</div>
-  <div id="status">Press Record, speak, press Stop, then review before downloading.</div>
+  <div id="status">Press Record, speak, press Stop.</div>
 
   <div id="reviewPanel">
     <audio id="player" controls></audio>
@@ -312,6 +313,15 @@
   discardBtn.addEventListener('click', () => {
     hideReview();
     setStatus('Discarded. Press Record to start a new one.');
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.code !== 'Space') return;
+    const active = document.activeElement;
+    const tag = active ? active.tagName : '';
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || active === player) return;
+    e.preventDefault();
+    recordBtn.click();
   });
 })();
 </script>
